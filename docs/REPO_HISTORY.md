@@ -10,6 +10,7 @@ origin	https://github.com/Nilhan-DeMel/Dot_Env.git (push)
 
 ## 📈 Commit Graph
 ```text
+* 86c41f0 2026-01-09 docs: add repo history export (md+pdf) (Nilhan)
 * a9a9438 2026-01-09 ci: fix secret scanning flow (Nilhan)
 * 7284da0 2026-01-09 ci: add secret scanning (Nilhan)
 * 45f0683 2026-01-09 ci: add pristine workflow (Nilhan)
@@ -23,6 +24,18 @@ origin	https://github.com/Nilhan-DeMel/Dot_Env.git (push)
 
 ## 📄 Detailed Commit History
 ```text
+commit 86c41f0a7dc66cad6574fa82fc9bd6ce9ad46e0f
+Author: Nilhan <nilhan@gmail.com>
+Date:   Fri Jan 9 09:46:58 2026 +0530
+
+    docs: add repo history export (md+pdf)
+
+ docs/REPO_HISTORY.md               | 138 +++++++++++++++++++++++++++++++++++++
+ docs/REPO_HISTORY.pdf              | Bin 0 -> 5383 bytes
+ scripts/export-repo-history-pdf.py |  58 ++++++++++++++++
+ scripts/export-repo-history.py     |  34 +++++++++
+ 4 files changed, 230 insertions(+)
+
 commit a9a9438ad78ebde4b990404aa17f6efcc74fecfa
 Author: Nilhan <nilhan@gmail.com>
 Date:   Fri Jan 9 09:45:09 2026 +0530
