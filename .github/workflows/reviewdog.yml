@@ -1,0 +1,36 @@
+name: Reviewdog
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  reviewdog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: actionlint (Reviewdog)
+        uses: reviewdog/action-actionlint@1bf9a0707cba5462c03712f1765331395869d8e8 # v1.58.0
+        with:
+          fail_on_error: true
+          filter_mode: added
+          level: warning
+          reporter: github-pr-review
+
+      - name: markdownlint (Reviewdog)
+        uses: reviewdog/action-markdownlint@232742914197c36a6e5a40b938092fb1301d0c41 # v0.12.0
+        with:
+          fail_on_error: true
+          filter_mode: added
+          level: warning
+          reporter: github-pr-review
