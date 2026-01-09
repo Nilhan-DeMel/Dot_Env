@@ -41,7 +41,7 @@ def scan_directory(root_path, max_depth=4):
     """Scan directory and return file information."""
     files = []
     directories = []
-    
+
     for item in sorted(root_path.rglob('*')):
         # Calculate depth
         try:
@@ -49,16 +49,16 @@ def scan_directory(root_path, max_depth=4):
             depth = len(relative.parts)
         except ValueError:
             continue
-            
+
         if depth > max_depth:
             continue
-            
+
         # Skip excluded directories
         if any(excluded in item.parts for excluded in EXCLUDE_DIRS):
             continue
-        
+
         rel_path = str(relative).replace('\\', '/')
-        
+
         if item.is_file():
             try:
                 stat = item.stat()
@@ -76,7 +76,7 @@ def scan_directory(root_path, max_depth=4):
                 'path': rel_path,
                 'name': item.name
             })
-    
+
     return files, directories
 
 
@@ -92,7 +92,7 @@ def detect_tech_stack(files):
     """Detect technology stack from files."""
     stack = []
     file_names = {f['name'] for f in files}
-    
+
     if 'package.json' in file_names:
         stack.append('Node.js')
     if 'requirements.txt' in file_names or 'pyproject.toml' in file_names:
@@ -105,7 +105,7 @@ def detect_tech_stack(files):
         stack.append('Java (Maven)')
     if 'Dockerfile' in file_names:
         stack.append('Docker')
-    
+
     return stack if stack else ['None detected']
 
 
@@ -147,17 +147,17 @@ def output_markdown(files, directories, summary):
     print("# Repository Scan Results\n")
     print(f"**Scanned:** {summary['scan_time']}")
     print(f"**Root:** `{summary['repo_root']}`\n")
-    
+
     print("## Summary\n")
     print(f"- **Files:** {summary['total_files']}")
     print(f"- **Directories:** {summary['total_directories']}")
     print(f"- **Total Size:** {summary['total_size_bytes']:,} bytes")
     print(f"- **Tech Stack:** {', '.join(summary['tech_stack'])}\n")
-    
+
     print("## Files by Category\n")
     for category, count in sorted(summary['files_by_category'].items()):
         print(f"- {category}: {count}")
-    
+
     print("\n## File List\n")
     print("| Path | Size | Category |")
     print("|------|------|----------|")
@@ -185,18 +185,18 @@ def output_text(files, directories, summary):
 def main():
     """Main entry point."""
     repo_root = get_repo_root()
-    
+
     # Parse arguments
     output_format = 'text'
     if '--json' in sys.argv:
         output_format = 'json'
     elif '--markdown' in sys.argv:
         output_format = 'markdown'
-    
+
     # Scan repository
     files, directories = scan_directory(repo_root)
     summary = generate_summary(files, directories, repo_root)
-    
+
     # Output results
     if output_format == 'json':
         output_json(files, directories, summary)
@@ -204,7 +204,7 @@ def main():
         output_markdown(files, directories, summary)
     else:
         output_text(files, directories, summary)
-    
+
     return 0
 
 

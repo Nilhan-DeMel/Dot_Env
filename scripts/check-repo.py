@@ -39,12 +39,12 @@ def check_required_files(root):
         'docs/INDEX.md',
         'docs/REPO_MAP.md',
     ]
-    
+
     missing = []
     for f in required:
         if not (root / f).exists():
             missing.append(f)
-    
+
     return missing
 
 
@@ -53,31 +53,31 @@ def check_doc_links(root):
     docs_dir = root / 'docs'
     if not docs_dir.exists():
         return ['docs/ directory missing']
-    
+
     broken = []
     link_pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
-    
+
     for md_file in docs_dir.rglob('*.md'):
         content = md_file.read_text(encoding='utf-8', errors='ignore')
         for match in link_pattern.finditer(content):
             link_text, link_target = match.groups()
-            
+
             # Skip external links and anchors
             if link_target.startswith(('http://', 'https://', '#', 'mailto:')):
                 continue
-            
+
             # Remove anchor from path
             target_path = link_target.split('#')[0]
             if not target_path:
                 continue
-            
+
             # Resolve relative to the markdown file's directory
             resolved = (md_file.parent / target_path).resolve()
-            
+
             if not resolved.exists():
                 rel_md = md_file.relative_to(root)
                 broken.append(f"{rel_md}: {link_target}")
-    
+
     return broken
 
 
@@ -85,10 +85,10 @@ def check_repo_scan():
     """Check that repo-scan.py runs without error."""
     root = get_repo_root()
     scan_script = root / 'scripts' / 'repo-scan.py'
-    
+
     if not scan_script.exists():
         return ['scripts/repo-scan.py missing']
-    
+
     # Try importing and running
     try:
         import subprocess
@@ -102,7 +102,7 @@ def check_repo_scan():
             return [f'repo-scan.py failed: {result.stderr[:100]}']
     except Exception as e:
         return [f'repo-scan.py error: {str(e)[:100]}']
-    
+
     return []
 
 
@@ -110,12 +110,12 @@ def main():
     """Run all checks and report results."""
     root = get_repo_root()
     all_passed = True
-    
+
     print("=" * 50)
     print("REPOSITORY HEALTH CHECK")
     print("=" * 50)
     print(f"Root: {root}\n")
-    
+
     # Check 1: Required files
     print("[1] Required files...")
     missing = check_required_files(root)
@@ -126,7 +126,7 @@ def main():
         all_passed = False
     else:
         print("    ✅ PASS: All required files present")
-    
+
     # Check 2: Doc links
     print("\n[2] Documentation links...")
     broken = check_doc_links(root)
@@ -139,7 +139,7 @@ def main():
         # Don't fail on broken links, just warn
     else:
         print("    ✅ PASS: All doc links resolve")
-    
+
     # Check 3: repo-scan.py
     print("\n[3] repo-scan.py...")
     errors = check_repo_scan()
@@ -148,10 +148,10 @@ def main():
         all_passed = False
     else:
         print("    ✅ PASS: repo-scan.py runs successfully")
-    
+
     # Summary
     print("\n" + "=" * 50)
-    
+
     # Get extra info
     head_hash = "unknown"
     tracked_count = "unknown"
@@ -164,7 +164,7 @@ def main():
         tracked_count = len(stdout.strip().split('\n')) if stdout.strip() else 0
     except:
         pass
-        
+
     last_scan = "unknown"
     try:
         repo_map = root / 'docs' / 'REPO_MAP.md'
@@ -180,7 +180,7 @@ def main():
     print(f"HEAD: {head_hash}")
     print(f"Tracked Files: {tracked_count}")
     print(f"Last Scan: {last_scan}")
-    
+
     if all_passed:
         print("RESULT: ✅ All checks passed")
         return 0
