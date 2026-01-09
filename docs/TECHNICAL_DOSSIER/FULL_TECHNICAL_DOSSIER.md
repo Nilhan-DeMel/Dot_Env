@@ -5,8 +5,8 @@
 **Repository:** <https://github.com/Nilhan-DeMel/Dot_Env.git>
 **Visibility:** PRIVATE
 
-> This document is a verified, self-contained representation of the Dot_Env repository.
-> All claims are backed by evidence collected at the timestamp above.
+> This document is a **snapshot** of the Dot_Env repository at the commit above.
+> All claims are backed by evidence. See [Appendix A](#appendix-a-environment-proof) and [Verification Audit Report](VERIFICATION_AUDIT_REPORT.md) for command outputs.
 
 ---
 
@@ -152,7 +152,7 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 
 ## Orphan Status
 
-- `.markdownlint.json`: **NOT ORPHAN** — Used by `reviewdog/action-markdownlint` (implicit config discovery)
+- `.markdownlint.json`: **LIKELY USED** — Assumed to be discovered by `reviewdog/action-markdownlint` via implicit config lookup. Not verified by explicit test run.
 
 ---
 
@@ -440,12 +440,88 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 
 ## 3. Free Plan Limitations
 
-- No API-enforced branch protection
-- No environment approval gates
+- Branch protection API returned 403 during this audit (cause unverified; may be token scope or plan limitation)
+- No environment approval gates on Free plan
 
 ## 4. Partial SHA Pinning
 
-- `actions/upload-artifact@v4` uses tag, not SHA
+- `actions/upload-artifact@v4` uses tag, not SHA (in `scheduled-health.yml`, `megalinter.yml`)
+
+---
+
+# Known Tradeoffs & Intentional Design
+
+## Layered Defense Philosophy
+This repo intentionally runs overlapping checks at different stages:
+
+| Stage | Purpose | Speed | Coverage |
+|-------|---------|-------|----------|
+| **Push to main** | Immediate sanity | Fast | Core health only |
+| **PR checks** | Comprehensive gate | Medium | All lints + security |
+| **Scheduled** | Drift detection | Slow | Full audit + reports |
+
+## Why Duplication Exists
+
+- `pristine.yml` and `conflict-check.yml` overlap → Planned for consolidation
+- `scheduled-health.yml` and `repo-dashboard.yml` overlap → Different output artifacts
+
+---
+
+# Tool Ownership & Failure Routing
+
+| Tool | Workflow | On Failure | Owner |
+|------|----------|------------|-------|
+| Gitleaks | `secret-scan.yml` | Issue opened via `failure-alert` | Human review required |
+| Trivy | `trivy.yml` | Issue opened via `failure-alert` | Evaluate CVE severity |
+| Actionlint | `actionlint.yml` | PR blocked | Fix workflow syntax |
+| MegaLinter | `megalinter.yml` | PR annotations | Fix lint errors |
+| Pre-commit | `pre-commit.yml` | PR blocked | Run `pre-commit run -a` locally |
+
+## Failure Alert Coverage
+`failure-alert.yml` monitors: `Lint Workflows`, `Link Check`, `Secret Scan`, `Trivy Scan`, `Pre-commit Gate`, `Pristine Checks`.
+
+---
+
+# How to Verify This Dossier
+
+Run these commands to validate key claims:
+
+```bash
+# 1. Confirm HEAD SHA
+git rev-parse HEAD
+
+# 2. Count workflows (should be 18)
+git ls-tree --name-only HEAD:.github/workflows | wc -l
+
+# 3. List all workflows
+git ls-tree --name-only HEAD:.github/workflows
+
+# 4. Count scripts (should be 7)
+ls scripts/*.py | wc -l
+
+# 5. Verify config files exist
+ls -la .gitattributes .editorconfig .pre-commit-config.yaml .markdownlint.json
+
+# 6. Check scheduled crons
+grep -r "cron:" .github/workflows/
+
+# 7. Verify remote
+git remote -v
+```
+
+---
+
+# GitHub Settings (Out of Scope)
+
+> **Note:** The following GitHub settings are NOT tracked in git and are not documented in this dossier:
+>
+> - Branch protection rules / rulesets
+> - Required status checks
+> - Installed GitHub Apps
+> - Repository secrets / variables
+> - Environments and deployment gates
+>
+> These must be verified via GitHub UI or API.
 
 ---
 
