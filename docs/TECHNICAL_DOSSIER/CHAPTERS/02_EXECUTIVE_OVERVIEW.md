@@ -10,7 +10,7 @@ The `Dot_Env` repository serves as a **production-grade scaffolding and validati
 ## Current State vs. Scaffold
 As of commit `14859ef`, the repository is **fully operational**. It is not merely a template; it is a live environment running:
 
-- **16 GitHub Actions Workflows** covering linting, security, links, and health.
+- **18 GitHub Actions Workflows** covering linting, security, links, and health.
 - **Daily and Weekly Schedules** for ongoing maintenance.
 - **Strict Concurrency Controls** to prevent resource waste.
 
@@ -21,8 +21,8 @@ It is currently in a "Post-Consolidation" phase, where redundant checks have bee
 - **Primary User:** AI Agents (e.g., Antigravity). The repo is structured to be "machine-readable" first.
 - **Supervisor:** Human Developers. They receive alerts via the `Failure Alert` workflow only when necessary.
 
-## Guaranteed Invariants
-Any commit present on `main` is guaranteed to have passed:
+## Expected Invariants
+Any commit present on `main` is expected to have passed the following checks (enforced via honor system and CI failure alerts on GitHub Free private repos):
 
 - **Syntax Checks:** Verified by `actionlint` (workflows), `check-yaml` (pre-commit), and Python syntax checks.
 - **Security Baseline:** Verified by `gitleaks` (Secret Scan) and `trivy` (File Scan).

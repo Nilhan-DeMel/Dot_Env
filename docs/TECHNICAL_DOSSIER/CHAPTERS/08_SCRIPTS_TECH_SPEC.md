@@ -41,7 +41,7 @@ All scripts are located in `/scripts`. They are written in Python (3.12+ compati
 ## 7. export-repo-health.py
 
 - **Purpose:** Snapshots health metrics to a file (JSON/MD).
-- **Used By:** `scheduled-health.yml`.
+- **Used By:** Not currently used by active workflows. Script exists but no current workflow integration detected.
 
 ## Safety Notes
 

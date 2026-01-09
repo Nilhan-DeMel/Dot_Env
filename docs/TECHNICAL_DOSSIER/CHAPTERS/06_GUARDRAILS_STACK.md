@@ -22,7 +22,7 @@ These tools prevent credentials and vulnerabilities from entering.
 
 ## 4. Supply Chain Hardening
 
-- **Action Pinning:** All GitHub Actions uses in workflows are pinned to full commit SHAs (e.g., `uses: actions/checkout@11bd...`) rather than mutable tags (`@v4`). This prevents supply chain attacks via tag hijacking.
+- **Action Pinning:** Most core actions are pinned to full commit SHAs (e.g., `uses: actions/checkout@11bd...`) rather than mutable tags. Exceptions: `actions/upload-artifact@v4` in `scheduled-health.yml` and `megalinter.yml` use tag pinning. This prevents supply chain attacks via tag hijacking for pinned actions.
 - **Dependency Updates:** Dependabot is configured (`.github/dependabot.yml`) to update Actions and pip dependencies.
 
 ## 5. Secret Handling Model
