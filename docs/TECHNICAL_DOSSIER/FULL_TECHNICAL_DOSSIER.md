@@ -65,7 +65,7 @@ The `Dot_Env` repository serves as a **production-grade scaffolding and validati
 ## Current State
 As of commit `704d56b`, the repository is **fully operational**:
 
-- **18 GitHub Actions Workflows** covering linting, security, links, and health
+- **16 GitHub Actions Workflows** covering linting, security, links, and health
 - **Daily and Weekly Schedules** for ongoing maintenance
 - **Strict Concurrency Controls** to prevent resource waste
 
@@ -134,10 +134,10 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 
 | Path | Purpose |
 |------|---------|
-| `/.github/workflows/` | 18 CI/CD workflow definitions |
+| `/.github/workflows/` | 16 CI/CD workflow definitions |
 | `/.github/dependabot.yml` | Dependency update configuration |
 | `/docs/` | Documentation including this dossier |
-| `/scripts/` | 7 Python maintenance scripts |
+| `/scripts/` | 6 Python maintenance scripts |
 | `/.gitattributes` | EOL and binary handling |
 | `/.editorconfig` | IDE formatting rules |
 | `/.pre-commit-config.yaml` | Git hook definitions |
@@ -163,7 +163,7 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 - **Concurrency:** `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: true`
 - **Permissions:** Explicitly defined; defaults to `contents: read`
 
-## Workflow Inventory (18 Total)
+## Workflow Inventory (16 Total)
 
 ### Push-Triggered (1)
 
@@ -271,23 +271,22 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 
 # Repo Scripts Tech Spec
 
-## Inventory (7 Scripts)
+## Inventory (6 Scripts)
 
 ### 1. check-repo.py
 
 - **Purpose:** Primary health check
-- **Used By:** `conflict-check`, `pristine`, `repo-dashboard`, `auto-fix`, `main-sanity`, `full-audit`
+- **Used By:** `conflict-check`, `repo-dashboard`, `auto-fix`, `main-sanity`, `full-audit`
 - **Exit Codes:** 0=Healthy, 1=Unhealthy
 
 ### 2. repo-scan.py
 
 - **Purpose:** Repository metadata summary
-- **Used By:** `repo-dashboard`, `conflict-check`, `main-sanity`, `auto-fix`, `pristine`, `full-audit`
+- **Used By:** `repo-dashboard`, `conflict-check`, `main-sanity`, `auto-fix`, `full-audit`
 
 ### 3. doctor.py
 
-- **Purpose:** Advanced diagnostics
-- **Used By:** `scheduled-health.yml`
+- **Used By:** `repo-dashboard` (daily)
 
 ### 4. export-repo-history.py
 
@@ -304,15 +303,10 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 - **Purpose:** Change impact analysis
 - **Used By:** `impact-ci.yml`
 
-### 7. export-repo-health.py
-
-- **Purpose:** Health metrics snapshot
-- **Used By:** **Not currently used by any active workflow**
-
 ## Safety Classification
 
 - **Read-Only:** `check-repo`, `repo-scan`, `doctor`, `impact`
-- **Write-Active:** `export-*` scripts produce artifacts
+- **Write-Active:** `export-repo-history`, `export-repo-history-pdf`
 
 ---
 
@@ -571,15 +565,13 @@ Verified: 2026-01-09T18:18+05:30
 9. main-sanity.yml
 10. megalinter.yml
 11. pre-commit.yml
-12. pristine.yml
-13. repo-dashboard.yml
-14. reviewdog.yml
-15. scheduled-health.yml
-16. scorecard.yml
-17. secret-scan.yml
-18. trivy.yml
+12. repo-dashboard.yml
+13. reviewdog.yml
+14. scorecard.yml
+15. secret-scan.yml
+16. trivy.yml
 
-Total: 18 workflows
+Total: 16 workflows
 ```
 
 ---
@@ -661,7 +653,6 @@ updates:
 |----------|------|----------|-----------|
 | auto-fix.yml | `0 0 * * *` | 00:00 | Daily |
 | repo-dashboard.yml | `0 6 * * *` | 06:00 | Daily |
-| scheduled-health.yml | `0 23 * * *` | 23:00 | Daily |
 | scorecard.yml | `0 3 * * 0` | 03:00 Sun | Weekly |
 | secret-scan.yml | `0 4 * * 0` | 04:00 Sun | Weekly |
 
