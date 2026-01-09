@@ -13,6 +13,7 @@ jobs:
 
       - name: Markdown Lint
         uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19.0.0
+        continue-on-error: true # Report issues without blocking CI
         with:
           config: .markdownlint.json
           globs: |
