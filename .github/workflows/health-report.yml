@@ -1,0 +1,42 @@
+name: Health Report
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # Daily at 01:00 UTC
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Auto-Fix Maintenance"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: '3.12'
+
+      - name: Generate Dashboard
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/export-repo-health.py
+
+      - name: Commit Dashboard
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n $(git status --porcelain docs/PRISTINE_STATUS.md) ]]; then
+            git add docs/PRISTINE_STATUS.md
+            git commit -m "docs: public health update"
+            git push
+          else
+            echo "No changes in dashboard"
+          fi
