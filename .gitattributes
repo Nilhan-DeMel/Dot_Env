@@ -11,18 +11,29 @@
 *.ts text eol=lf
 *.py text eol=lf
 *.sh text eol=lf
+LICENSE text eol=lf
 
 # Config files
 .editorconfig text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
 
-# Binary files
+# Binary files - Archives
+*.tar -text
+*.gz -text
+*.tgz -text
+*.tar.* -text
+*.zip binary
+
+# Binary files - Images & Fonts
 *.png binary
 *.jpg binary
 *.jpeg binary
 *.gif binary
 *.ico binary
+*.webp -text
+*.svg -text
+*.woff -text
+*.woff2 -text
+*.ttf -text
 *.pdf binary
-*.zip binary
-*.tar.gz binary

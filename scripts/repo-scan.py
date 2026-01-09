@@ -176,7 +176,7 @@ def output_text(files, directories, summary):
     print(f"Total Directories: {summary['total_directories']}")
     print(f"Tech Stack: {', '.join(summary['tech_stack'])}")
     print("\n" + "-" * 40)
-    print("FILES:")
+    print(f"\nListing all {len(files)} files:")
     print("-" * 40)
     for f in files:
         print(f"  {f['path']} ({f['size']} bytes)")

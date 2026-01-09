@@ -151,6 +151,36 @@ def main():
     
     # Summary
     print("\n" + "=" * 50)
+    
+    # Get extra info
+    head_hash = "unknown"
+    tracked_count = "unknown"
+    try:
+        import subprocess
+        head_hash = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], stderr=subprocess.DEVNULL).decode('utf-8').strip()
+        tracked_count = subprocess.check_output(['git', 'ls-files'], stderr=subprocess.DEVNULL).decode('utf-8').count('\n') + 1 # simplistic line count
+        # better count
+        stdout = subprocess.check_output(['git', 'ls-files'], stderr=subprocess.DEVNULL).decode('utf-8')
+        tracked_count = len(stdout.strip().split('\n')) if stdout.strip() else 0
+    except:
+        pass
+        
+    last_scan = "unknown"
+    try:
+        repo_map = root / 'docs' / 'REPO_MAP.md'
+        if repo_map.exists():
+            content = repo_map.read_text(encoding='utf-8', errors='ignore')
+            for line in content.splitlines():
+                if "*Generated:" in line:
+                    last_scan = line.split("*Generated:")[1].split("|")[0].strip()
+                    break
+    except:
+        pass
+
+    print(f"HEAD: {head_hash}")
+    print(f"Tracked Files: {tracked_count}")
+    print(f"Last Scan: {last_scan}")
+    
     if all_passed:
         print("RESULT: ✅ All checks passed")
         return 0

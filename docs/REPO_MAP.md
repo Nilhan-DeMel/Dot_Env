@@ -86,6 +86,7 @@ Dot_Env/
 | File | Purpose | Runtime |
 |------|---------|---------|
 | repo-scan.py | Regenerates REPO_MAP.md and dependency info | Python 3.6+ (stdlib only) |
+| check-repo.py | Validates repo health (files, links) | Python 3.6+ (stdlib only) |
 
 ---
 
