@@ -1,0 +1,40 @@
+name: Main Sanity
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: '3.12'
+
+      - name: Run check-repo
+        run: python scripts/check-repo.py
+
+      - name: Run repo-scan
+        run: python scripts/repo-scan.py
+
+      - name: Generate Summary
+        run: |
+          echo "# ✅ Main Sanity Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| check-repo.py | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| repo-scan.py | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Commit: ${{ github.sha }}*" >> $GITHUB_STEP_SUMMARY
