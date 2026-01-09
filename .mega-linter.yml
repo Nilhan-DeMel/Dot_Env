@@ -1,0 +1,32 @@
+---
+# Configuration file for MegaLinter
+# See all available variables at https://megalinter.io/configuration/
+
+APPLY_FIXES: none # Do not apply fixes automatically
+ENABLE:
+  # Explicitly enable only these linters
+  - MARKDOWN
+  - YAML
+  - JSON
+  - ACTION
+  - SPELL
+  - PYTHON
+
+DISABLE:
+  - COPYPASTE # Too noisy for now
+  - SPELL_CSPELL # Using basic spell check if available, or rely on IDE
+  # Disable specific noisy linters if needed, e.g.
+  # - MARKDOWN_MARKDOWNLINT
+
+# Linter specific configurations
+MARKDOWN_MARKDOWNLINT_ARGS: "--config .markdownlint.json"
+YAML_YAMLLINT_ARGS: "--config .yamllint.yml"
+JSON_JSONLINT_ARGS: ""
+ACTION_ACTIONLINT_ARGS: ""
+
+# Upload reports
+UPLOAD_REPORT: true
+REPORT_OUTPUT_FOLDER: megalinter-reports
+
+# Performance
+PARALLEL: true

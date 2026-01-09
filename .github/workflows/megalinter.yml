@@ -1,0 +1,44 @@
+name: MegaLinter
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  megalinter:
+    name: MegaLinter
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # For posting comments (optional, depending on config)
+      issues: write        # For posting comments (optional)
+      statuses: write      # For setting commit status
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0 # Reviewdog/MegaLinter needs history
+
+      - name: MegaLinter
+        id: ml
+        uses: oxsecurity/megalinter@ec124f79989181aca66cc1e360938bb03a8909af # v8.4.0
+        env:
+          # VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }} # Validates all source when push on main, else just the git diff with main.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Mapped to .mega-linter.yml by default, but can ideally force it here
+          MEGALINTER_CONFIG: .mega-linter.yml
+
+      - name: Archive Production Artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8dd1 # v4.6.1
+        with:
+          name: MegaLinter reports
+          path: |
+            megalinter-reports
+            mega-linter.log
