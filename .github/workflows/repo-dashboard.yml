@@ -59,5 +59,21 @@ jobs:
           echo "| repo-scan | ${{ steps.repo_scan.outcome }} |" >> $GITHUB_STEP_SUMMARY
           echo "| pre-commit | ${{ steps.precommit.outcome }} |" >> $GITHUB_STEP_SUMMARY
           echo "| actionlint | ${{ steps.actionlint.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| doctor | ${{ steps.doctor.outcome }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "*Generated: $(date -u)*" >> $GITHUB_STEP_SUMMARY
+
+      - name: Install reportlab
+        run: pip install reportlab
+
+      - name: Run Doctor
+        id: doctor
+        run: python scripts/doctor.py || echo "doctor=fail" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Archive Doctor Report
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
+        with:
+          name: doctor-report
+          path: docs/DOCTOR_REPORT.md
+          retention-days: 30

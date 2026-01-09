@@ -8,7 +8,11 @@ on:
       - "Secret Scan"
       - "Trivy Scan"
       - "Pre-commit Gate"
-      - "Pristine Checks"
+      - "Commit Lint"
+      - "MegaLinter"
+      - "Reviewdog"
+      - "Main Sanity"
+      - "Repo Dashboard"
     types:
       - completed
 
