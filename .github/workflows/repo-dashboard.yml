@@ -1,0 +1,60 @@
+name: Repo Dashboard
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install pre-commit
+
+      - name: Run check-repo
+        id: check_repo
+        run: python scripts/check-repo.py || echo "check_repo=fail" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run repo-scan
+        id: repo_scan
+        run: python scripts/repo-scan.py || echo "repo_scan=fail" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run pre-commit
+        id: precommit
+        run: pre-commit run -a || echo "precommit=fail" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run actionlint
+        id: actionlint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash
+          ./actionlint || echo "actionlint=fail" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Generate Summary
+        run: |
+          echo "# 📊 Repo Dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| check-repo | ${{ steps.check_repo.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| repo-scan | ${{ steps.repo_scan.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| pre-commit | ${{ steps.precommit.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| actionlint | ${{ steps.actionlint.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Generated: $(date -u)*" >> $GITHUB_STEP_SUMMARY
