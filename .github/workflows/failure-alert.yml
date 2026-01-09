@@ -1,6 +1,7 @@
 name: Failure Alert
 
 on:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
