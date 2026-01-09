@@ -1,271 +1,227 @@
-# 🔄 Workflows
+# Workflows
 
-> CI/CD pipelines, branching strategy, release process, and automation for Dot_Env.
-
----
-
-## Current State
-
-> [!IMPORTANT]
-> **No CI/CD pipelines are configured.** The `/.github/workflows/` directory does not exist.
-
-This document describes the intended workflows based on existing templates and conventions.
+**Last synced:** 2026-01-09T16:50:00Z | Commit: `135c555`
 
 ---
 
-## Branching Strategy
+## Quick Map
 
-### Recommended: GitHub Flow
+### Runs on Pull Requests
 
-```mermaid
-gitGraph
-    commit id: "initial"
-    branch feature/amazing-feature
-    checkout feature/amazing-feature
-    commit id: "feat: add feature"
-    commit id: "test: add tests"
-    checkout main
-    merge feature/amazing-feature
-    commit id: "v1.0.0" tag: "v1.0.0"
-```
+- Lint Workflows (`actionlint.yml`)
+- Commit Lint (`commitlint.yml`)
+- Conflict Check (`conflict-check.yml`)
+- Impact CI (`impact-ci.yml`)
+- Link Check (`link-check.yml`)
+- MegaLinter (`megalinter.yml`)
+- Pre-commit Gate (`pre-commit.yml`)
+- Reviewdog (`reviewdog.yml`)
+- Secret Scan (`secret-scan.yml`)
+- Trivy Scan (`trivy.yml`)
 
-### Branch Naming Convention
+### Runs on Push to main
 
-| Prefix | Purpose | Example |
-|--------|---------|---------|
-| `feature/` | New features | `feature/env-parser` |
-| `fix/` | Bug fixes | `fix/validation-error` |
-| `docs/` | Documentation | `docs/api-reference` |
-| `chore/` | Maintenance | `chore/update-deps` |
+- Main Sanity (`main-sanity.yml`)
 
-**Source:** [CONTRIBUTING.md](../CONTRIBUTING.md#L8)
+### Runs on Schedule
 
----
+- Auto-Fix Maintenance (`auto-fix.yml`) — daily 00:00 UTC
+- Repo Dashboard (`repo-dashboard.yml`) — daily 06:00 UTC
+- Scorecard (`scorecard.yml`) — weekly Sun 03:00 UTC
+- Secret Scan (`secret-scan.yml`) — weekly Sun 04:00 UTC
 
-## Commit Convention
+### Manual-only
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/).
+- Full Audit (`full-audit.yml`)
 
-### Format
+### Workflow-run Alerts
 
-```
-<type>(<scope>): <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-### Types
-
-| Type | Description | Example |
-|------|-------------|---------|
-| `feat` | New feature | `feat: add env validation` |
-| `fix` | Bug fix | `fix: handle empty files` |
-| `docs` | Documentation | `docs: update README` |
-| `chore` | Maintenance | `chore: update gitignore` |
-| `test` | Tests | `test: add parser tests` |
-| `refactor` | Code refactoring | `refactor: simplify parser` |
-
-**Source:** [CONTRIBUTING.md](../CONTRIBUTING.md#L16)
+- Failure Alert (`failure-alert.yml`) — triggers on monitored workflow failures
 
 ---
 
-## Pull Request Workflow
+## Workflow Matrix
 
-### Template Structure
-
-**File:** [.github/PULL_REQUEST_TEMPLATE.md](../.github/PULL_REQUEST_TEMPLATE.md)
-
-```markdown
-## Description
-<!-- What does this PR do? -->
-
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
-- [ ] Documentation update
-
-## Checklist
-- [ ] Tests pass locally
-- [ ] Code follows project style
-- [ ] Self-reviewed my changes
-- [ ] Updated documentation (if needed)
-
-## Related Issues
-<!-- Closes #123 -->
-```
-
-### PR Flow
-
-```mermaid
-sequenceDiagram
-    participant Dev as Developer
-    participant GH as GitHub
-    participant Rev as Reviewer
-    participant Main as main branch
-
-    Dev->>GH: Create PR from feature branch
-    GH->>GH: Apply PR template
-    GH->>Rev: Request review
-    Rev->>GH: Review & approve
-    GH->>Main: Merge PR
-    GH->>Dev: Delete feature branch
-```
+| File | Name | Triggers | Writes? | Primary Tools | Outputs |
+|------|------|----------|---------|---------------|---------|
+| actionlint.yml | Lint Workflows | PR, manual | none | actionlint | — |
+| auto-fix.yml | Auto-Fix Maintenance | cron, manual | contents | pre-commit, export scripts | commits fixes |
+| commitlint.yml | Commit Lint | PR, manual | none | commitlint | — |
+| conflict-check.yml | Conflict Check | PR, manual | none | check-repo.py, repo-scan.py | — |
+| failure-alert.yml | Failure Alert | workflow_run | issues | github-script | creates/updates issue |
+| full-audit.yml | Full Audit | manual | none | check-repo, pre-commit, actionlint | — |
+| impact-ci.yml | Impact CI | PR, manual | none | dorny/paths-filter | — |
+| link-check.yml | Link Check | PR, manual | none | lychee | — |
+| main-sanity.yml | Main Sanity | push(main) | none | check-repo.py, repo-scan.py | — |
+| megalinter.yml | MegaLinter | PR, manual | none | megalinter | uploads artifact |
+| pre-commit.yml | Pre-commit Gate | PR, manual | none | pre-commit | — |
+| repo-dashboard.yml | Repo Dashboard | cron, manual | none | check-repo, repo-scan, doctor.py | uploads artifact |
+| reviewdog.yml | Reviewdog | PR | none | reviewdog/actionlint, reviewdog/markdownlint | PR annotations |
+| scorecard.yml | Scorecard | cron, manual | security-events | ossf/scorecard | uploads SARIF |
+| secret-scan.yml | Secret Scan | PR, cron, manual | none | gitleaks | — |
+| trivy.yml | Trivy Scan | PR, manual | none | trivy | — |
 
 ---
 
-## Issue Workflow
+## Lint Workflows (actionlint.yml)
 
-### Bug Reports
+- **Triggers:** pull_request, workflow_dispatch
+- **Paths filter:** `.github/workflows/**`
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** actionlint
+- **Outputs:** none
 
-**Template:** [.github/ISSUE_TEMPLATE/bug_report.md](../.github/ISSUE_TEMPLATE/bug_report.md)
+## Auto-Fix Maintenance (auto-fix.yml)
 
-| Field | Purpose |
-|-------|---------|
-| Description | What's broken |
-| Steps to Reproduce | How to trigger |
-| Expected Behavior | What should happen |
-| Actual Behavior | What happens instead |
-| Environment | OS, version info |
+- **Triggers:** schedule (daily 00:00 UTC), workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** contents: write
+- **Writes:** contents (commits fixes)
+- **Tools:** pre-commit, export-repo-history.py, export-repo-history-pdf.py
+- **Outputs:** commits to main
 
-**Auto-labels:** `bug`
+## Commit Lint (commitlint.yml)
 
-### Feature Requests
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** commitlint
+- **Outputs:** none
 
-**Template:** [.github/ISSUE_TEMPLATE/feature_request.md](../.github/ISSUE_TEMPLATE/feature_request.md)
+## Conflict Check (conflict-check.yml)
 
-| Field | Purpose |
-|-------|---------|
-| Problem | Why this is needed |
-| Proposed Solution | How it should work |
-| Alternatives | Other options considered |
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** check-repo.py, repo-scan.py
+- **Outputs:** none
 
-**Auto-labels:** `feature`
+## Failure Alert (failure-alert.yml)
 
----
+- **Triggers:** workflow_run (on failure of monitored workflows)
+- **Concurrency:** yes
+- **Permissions:** issues: write, actions: read
+- **Writes:** issues (creates/updates rolling issue)
+- **Tools:** actions/github-script
+- **Outputs:** issue titled "🚨 Repo Health: FAILING"
 
-## CI/CD Pipelines
+## Full Audit (full-audit.yml)
 
-> [!WARNING]
-> **No pipelines configured.** The following are recommendations.
+- **Triggers:** workflow_dispatch only
+- **Concurrency:** yes
+- **Permissions:** contents: read
+- **Writes:** none
+- **Tools:** check-repo.py, repo-scan.py, pre-commit, actionlint
+- **Outputs:** none
 
-### Recommended: GitHub Actions
+## Impact CI (impact-ci.yml)
 
-#### `.github/workflows/ci.yml` (Not Created)
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** dorny/paths-filter
+- **Outputs:** none
 
-```yaml
-# RECOMMENDATION - not yet implemented
-name: CI
+## Link Check (link-check.yml)
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** lychee
+- **Outputs:** none
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm ci
-      - run: npm test
-      - run: npm run lint
-```
+## Main Sanity (main-sanity.yml)
 
-#### `.github/workflows/release.yml` (Not Created)
+- **Triggers:** push (branches: main)
+- **Concurrency:** yes
+- **Permissions:** contents: read
+- **Writes:** none
+- **Tools:** check-repo.py, repo-scan.py
+- **Outputs:** none
 
-```yaml
-# RECOMMENDATION - not yet implemented
-name: Release
+## MegaLinter (megalinter.yml)
 
-on:
-  push:
-    tags: ['v*']
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** contents: read, issues: write
+- **Writes:** none
+- **Tools:** oxsecurity/megalinter
+- **Outputs:** uploads megalinter-reports artifact
 
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm publish
-```
+## Pre-commit Gate (pre-commit.yml)
 
----
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** pre-commit
+- **Outputs:** none
 
-## Release Process
+## Repo Dashboard (repo-dashboard.yml)
 
-### Recommended Versioning: Semantic Versioning
+- **Triggers:** schedule (daily 06:00 UTC), workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** contents: read, actions: read
+- **Writes:** none
+- **Tools:** check-repo.py, repo-scan.py, doctor.py, actionlint
+- **Outputs:** uploads doctor-report artifact, writes GITHUB_STEP_SUMMARY
 
-```
-MAJOR.MINOR.PATCH
-  │      │     └── Bug fixes
-  │      └──────── New features (backward compatible)
-  └─────────────── Breaking changes
-```
+## Reviewdog (reviewdog.yml)
 
-### Release Checklist
+- **Triggers:** pull_request
+- **Concurrency:** yes
+- **Permissions:** contents: read
+- **Writes:** none
+- **Tools:** reviewdog/action-actionlint, reviewdog/action-markdownlint
+- **Outputs:** PR annotations
 
-1. [ ] All tests pass
-2. [ ] CHANGELOG.md updated
-3. [ ] Version bumped in package.json
-4. [ ] Create git tag: `git tag v1.0.0`
-5. [ ] Push tag: `git push origin v1.0.0`
-6. [ ] Create GitHub release
+## Scorecard (scorecard.yml)
 
----
+- **Triggers:** schedule (weekly Sun 03:00 UTC), workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** security-events: write, contents: read
+- **Writes:** security-events (SARIF upload)
+- **Tools:** ossf/scorecard-action
+- **Outputs:** uploads SARIF to Security tab
 
-## Git Hooks
+## Secret Scan (secret-scan.yml)
 
-> [!NOTE]
-> **No git hooks configured.** Consider using [husky](https://github.com/typicode/husky).
+- **Triggers:** pull_request, schedule (weekly Sun 04:00 UTC), workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** gitleaks
+- **Outputs:** none
 
-### Recommended Hooks
+## Trivy Scan (trivy.yml)
 
-| Hook | Purpose | Tool |
-|------|---------|------|
-| `pre-commit` | Lint staged files | lint-staged |
-| `commit-msg` | Validate commit message | commitlint |
-| `pre-push` | Run tests | npm test |
-
----
-
-## Automation Scripts
-
-### repo-scan.py
-
-**Path:** `/scripts/repo-scan.py`
-**Purpose:** Regenerate REPO_MAP.md and dependency info
-
-```bash
-# Run from repo root
-python scripts/repo-scan.py
-```
-
----
-
-## Labels
-
-The following labels are configured in GitHub:
-
-| Label | Color | Purpose |
-|-------|-------|---------|
-| `bug` | #d73a4a | Bug reports |
-| `feature` | #0E8A16 | Feature requests |
-| `docs` | #0075CA | Documentation |
-| `chore` | #FEF2C0 | Maintenance |
-| `priority` | #D93F0B | High priority |
-| `enhancement` | #a2eeef | Improvements |
-| `good first issue` | #7057ff | Beginner-friendly |
-| `help wanted` | #008672 | Needs assistance |
+- **Triggers:** pull_request, workflow_dispatch
+- **Concurrency:** yes
+- **Permissions:** default (read)
+- **Writes:** none
+- **Tools:** aquasecurity/trivy-action
+- **Outputs:** none
 
 ---
 
-*Document Status: Partial (no CI/CD implemented)*
+## Failure Meaning
+
+- **PR workflows fail:** PR is blocked, checks show red
+- **Scheduled workflows fail:** Dashboard shows failure in Actions tab
+- **Failure Alert triggers:** Issue "🚨 Repo Health: FAILING" is created or updated
+- **Main Sanity fails:** Immediate visibility that main is broken
+
+---
+
+## Non-Goals
+
+- This doc is a map, not a full guide
+- For details, see the workflow YAML files directly
+- No historical narrative here
+- No troubleshooting guides
