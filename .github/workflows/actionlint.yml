@@ -1,6 +1,10 @@
 name: Lint Workflows
 
 on:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
   push:
     branches: [ main ]
     paths:

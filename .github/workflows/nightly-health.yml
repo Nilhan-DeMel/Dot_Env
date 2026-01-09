@@ -1,6 +1,10 @@
 name: Nightly Health & Archive
 
 on:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
   schedule:
     - cron: '0 23 * * *' # Daily at 23:00 UTC
   workflow_dispatch:

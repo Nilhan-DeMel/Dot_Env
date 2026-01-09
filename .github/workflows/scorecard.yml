@@ -1,6 +1,10 @@
 name: Scorecard
 
 on:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
   schedule:
     - cron: '0 3 * * 0' # Weekly on Sunday at 03:00 UTC
   workflow_dispatch:
