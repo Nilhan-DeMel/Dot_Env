@@ -1,0 +1,2 @@
+# Figures Placeholder
+File created to ensure directory exists.
