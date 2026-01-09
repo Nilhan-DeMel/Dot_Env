@@ -32,7 +32,9 @@ Dot_Env/
 │       ├── gitignore.md
 │       └── github-templates.md
 ├── scripts/                   # 🔧 Utility scripts
+│   ├── check-repo.py          # Repo health checker
 │   └── repo-scan.py           # Repo structure scanner
+├── .gitattributes             # Git attributes & EOL normalization
 ├── CODE_OF_CONDUCT.md         # Community standards
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── LICENSE                    # MIT License
@@ -55,6 +57,7 @@ Dot_Env/
 | [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Community behavior standards | 28 | 691B |
 | [.editorconfig](../.editorconfig) | Editor formatting rules | 16 | 234B |
 | [.gitignore](../.gitignore) | Git ignore patterns | 34 | 313B |
+| [.gitattributes](../.gitattributes) | EOL normalization & binary rules | 29 | 662B |
 
 ### .github/ Directory
 
@@ -155,7 +158,7 @@ Dot_Env/
 | `src/` | ❌ Missing | No source code directory |
 | `tests/` | ❌ Missing | No test directory |
 | `.github/workflows/` | ❌ Missing | No CI/CD pipelines |
-| `.env.example` | ❌ Missing | Referenced in README but not present |
+| `.env.example` | ❌ Missing | Not yet implemented |
 
 ---
 
