@@ -1,7 +1,7 @@
 ﻿# Dot_Env — Full Technical Dossier
 
-**Generated:** 2026-01-09T18:10:00+05:30 (Asia/Colombo)
-**HEAD SHA:** `fe475033ff377b7cc4f38087b97ce8d77bc0c3d8`
+**Generated:** 2026-01-09T18:18:00+05:30 (Asia/Colombo)
+**HEAD SHA:** `704d56b7f2e33775fbcccac3279343af3201f200`
 **Repository:** <https://github.com/Nilhan-DeMel/Dot_Env.git>
 **Visibility:** PRIVATE
 
@@ -40,7 +40,7 @@
 **Target Audience:** AI Agents, Developers, and Auditors.
 
 ## Core Philosophy: Evidence First
-This documentation is a snapshot of reality backed by evidence. Every claim about a workflow, script, or policy is derived from the actual code at commit `fe47503`.
+This documentation is a snapshot of reality backed by evidence. Every claim about a workflow, script, or policy is derived from the actual code at commit `704d56b`.
 
 ## How to Verify Claims
 When you read a statement like "The Pre-commit Gate runs on every PR," verify it by:
@@ -63,7 +63,7 @@ The `Dot_Env` repository serves as a **production-grade scaffolding and validati
 3. **Governance:** Strict linting, commit enforcement, and security scanning
 
 ## Current State
-As of commit `fe47503`, the repository is **fully operational**:
+As of commit `704d56b`, the repository is **fully operational**:
 
 - **18 GitHub Actions Workflows** covering linting, security, links, and health
 - **Daily and Weekly Schedules** for ongoing maintenance
@@ -85,7 +85,7 @@ Any commit on `main` is **expected** to have passed the following checks (enforc
 
 ## Health at a Glance
 
-- **CI Status:** ✅ Passing (Main Sanity on `fe47503`)
+- **CI Status:** ✅ Passing (Main Sanity on `704d56b`)
 - **Branch Protection:** Not API-enforced (Free plan limitation)
 - **Drift Control:** Active via `auto-fix.yml` (daily)
 
@@ -147,7 +147,7 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 
 ## Files of Special Importance
 
-- `scripts/check-repo.py`: Primary health check (used by 5 workflows)
+- `scripts/check-repo.py`: Primary health check (used by 6 workflows)
 - `.github/workflows/main-sanity.yml`: Push-to-main gatekeeper
 
 ## Orphan Status
@@ -276,13 +276,13 @@ Reduced CI noise, removed duplicates, ensured Free-plan compatibility.
 ### 1. check-repo.py
 
 - **Purpose:** Primary health check
-- **Used By:** `conflict-check`, `pristine`, `repo-dashboard`, `auto-fix`, `main-sanity`
+- **Used By:** `conflict-check`, `pristine`, `repo-dashboard`, `auto-fix`, `main-sanity`, `full-audit`
 - **Exit Codes:** 0=Healthy, 1=Unhealthy
 
 ### 2. repo-scan.py
 
 - **Purpose:** Repository metadata summary
-- **Used By:** `repo-dashboard`, `conflict-check`, `main-sanity`, `auto-fix`
+- **Used By:** `repo-dashboard`, `conflict-check`, `main-sanity`, `auto-fix`, `pristine`, `full-audit`
 
 ### 3. doctor.py
 
@@ -472,11 +472,11 @@ pre-commit run --all-files
 # Appendix A: Environment Proof
 
 ```text
-HEAD SHA: fe475033ff377b7cc4f38087b97ce8d77bc0c3d8
+HEAD SHA: 704d56b7f2e33775fbcccac3279343af3201f200
 Remote: https://github.com/Nilhan-DeMel/Dot_Env.git
 Branch: main
 Working Tree: clean
-Verified: 2026-01-09T18:10+05:30
+Verified: 2026-01-09T18:18+05:30
 ```
 
 ---
@@ -610,4 +610,4 @@ updates:
 
 **End of Document**
 
-*This dossier is verified against commit `fe47503` at 2026-01-09T18:10+05:30.*
+*This dossier is verified against commit `704d56b` at 2026-01-09T18:18+05:30.*
