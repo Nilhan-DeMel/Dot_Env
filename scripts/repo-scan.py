@@ -198,7 +198,23 @@ def main():
     summary = generate_summary(files, directories, repo_root)
 
     # Output results
-    if output_format == 'json':
+    if '--update' in sys.argv:
+        # Generate markdown content
+        import io
+        from contextlib import redirect_stdout
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            output_markdown(files, directories, summary)
+        content = f.getvalue()
+
+        # Write to REPO_MAP.md
+        docs_dir = repo_root / 'docs'
+        docs_dir.mkdir(exist_ok=True)
+        (docs_dir / 'REPO_MAP.md').write_text(content, encoding='utf-8')
+        print(f"Updated {docs_dir / 'REPO_MAP.md'}")
+
+    elif output_format == 'json':
         output_json(files, directories, summary)
     elif output_format == 'markdown':
         output_markdown(files, directories, summary)

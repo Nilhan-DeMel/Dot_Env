@@ -12,8 +12,13 @@ def get_repo_info():
     log_graph = subprocess.check_output(['git', 'log', '--graph', '--oneline', '--decorate', '--all', '--date=short', '--pretty=format:%h %ad %s (%an)']).decode('utf-8')
     full_stats = subprocess.check_output(['git', 'log', '--stat']).decode('utf-8')
 
+    head_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
+    timestamp = subprocess.check_output(['git', 'show', '-s', '--format=%ci', 'HEAD']).decode('utf-8').strip()
+
     output = f"# 📜 Repository History Export\n\n"
     output += f"## ℹ️ Metadata\n"
+    output += f"- **Generated:** `{timestamp}`\n"
+    output += f"- **Commit:** `{head_hash}`\n"
     output += f"- **Current Branch:** `{branch}`\n"
     output += f"- **Remotes:**\n```text\n{remote}```\n\n"
 
