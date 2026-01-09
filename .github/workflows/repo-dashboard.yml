@@ -1,14 +1,13 @@
 name: Repo Dashboard
 
 on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 06:00 UTC
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  schedule:
-    - cron: '0 6 * * *' # Daily at 06:00 UTC
-  workflow_dispatch:
 
 jobs:
   dashboard:
@@ -26,8 +25,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          pip install pre-commit
+        run: pip install pre-commit
 
       - name: Run check-repo
         id: check_repo

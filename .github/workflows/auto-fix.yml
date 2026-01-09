@@ -1,14 +1,13 @@
 name: Auto-Fix Maintenance
 
 on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  schedule:
-    - cron: '0 0 * * *' # Daily at midnight UTC
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,7 +31,7 @@ jobs:
           python -m pip install pre-commit reportlab
 
       - name: Run pre-commit (Auto-fix)
-        run: pre-commit run -a || true  # Allow failure so we can commit fixes
+        run: pre-commit run -a || true
 
       - name: Regenerate REPO_MAP
         run: python scripts/repo-scan.py --update

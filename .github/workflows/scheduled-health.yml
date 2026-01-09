@@ -1,14 +1,13 @@
 name: Scheduled Health
 
 on:
+  schedule:
+    - cron: '0 23 * * *' # Daily at 23:00 UTC
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  schedule:
-    - cron: '0 23 * * *' # Daily at 23:00 UTC
-  workflow_dispatch:
 
 jobs:
   doctor:
@@ -31,7 +30,7 @@ jobs:
 
       - name: Run Doctor
         run: python scripts/doctor.py
-        continue-on-error: true # Always upload report even if pass/fail
+        continue-on-error: true
 
       - name: Archive Doctor Report
         uses: actions/upload-artifact@v4

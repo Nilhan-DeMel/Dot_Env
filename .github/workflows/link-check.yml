@@ -1,16 +1,15 @@
 name: Link Check
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.md'
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  pull_request:
-    branches: [ main ]
-    paths:
-      - '**.md'
-  workflow_dispatch:
 
 jobs:
   lychee:

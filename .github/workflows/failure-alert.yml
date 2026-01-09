@@ -1,20 +1,20 @@
 name: Failure Alert
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Lint Workflows"
+      - "Link Check"
+      - "Secret Scan"
+      - "Trivy Scan"
+      - "Pre-commit Gate"
+      - "Pristine Checks"
+    types:
+      - completed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  workflow_run:
-    workflows:
-      - "Actionlint"
-      - "Link Check"
-      - "Secret Scan"
-      - "Trivy Scan"
-      - "Reviewdog"
-    types:
-      - completed
 
 permissions:
   issues: write
@@ -37,7 +37,6 @@ jobs:
 
             const title = "🚨 Repo Health: FAILING";
 
-            // Search for existing regular issue (open or closed)
             const issues = await github.rest.search.issuesAndPullRequests({
               q: `repo:${context.repo.owner}/${context.repo.repo} is:issue "${title}"`
             });
@@ -55,7 +54,6 @@ jobs:
               const issue = issues.data.items[0];
               issueNumber = issue.number;
 
-              // If closed, reopen it
               if (issue.state === 'closed') {
                 await github.rest.issues.update({
                   owner: context.repo.owner,
@@ -65,7 +63,6 @@ jobs:
                 });
               }
 
-              // Add comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -74,7 +71,6 @@ jobs:
               });
 
             } else {
-              // Create new issue
               const newIssue = await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -82,27 +78,4 @@ jobs:
                 body: `This issue tracks repository health failures.\n\n` + body
               });
               issueNumber = newIssue.data.number;
-            }
-
-  notify-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - name: Auto-close Issue if Healthy
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        with:
-          script: |
-            // Only consider closing if ALL monitored workflows are green?
-            // For simplicity, we just won't proactively close on every success to avoid flap,
-            // OR we can post a "Resolved" comment if the issue is open.
-
-            const title = "🚨 Repo Health: FAILING";
-            const issues = await github.rest.search.issuesAndPullRequests({
-              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open "${title}"`
-            });
-
-            if (issues.data.total_count > 0) {
-               // We could check if THIS was the failing one, but logic is complex.
-               // Just logging for now.
-               console.log("Success run detected. Verify if all checks pass to close issue.");
             }
