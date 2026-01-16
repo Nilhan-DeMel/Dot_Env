@@ -1,8 +1,8 @@
 # 📜 Repository History Export
 
 ## ℹ️ Metadata
-- **Generated:** `2026-01-14 02:00:18 +0000`
-- **Commit:** `a05e9e1c1108a5721966375a3db5721a97d07014`
+- **Generated:** `2026-01-15 10:56:19 +0530`
+- **Commit:** `90e363f223ebec567f19107e0eb9c093accae437`
 - **Current Branch:** `main`
 - **Remotes:**
 ```text
@@ -12,16 +12,16 @@ origin	https://github.com/Nilhan-DeMel/Dot_Env (push)
 
 ## 📈 Commit Graph
 ```text
-* a05e9e1 2026-01-14 chore: automated pristine maintenance (github-actions[bot])
+* 90e363f 2026-01-15 docs: remove redundant dossier source files (consolidated into FULL_TECHNICAL_DOSSIER.md) (Nilhan)
 ```
 
 ## 📄 Detailed Commit History
 ```text
-commit a05e9e1c1108a5721966375a3db5721a97d07014
-Author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-Date:   Wed Jan 14 02:00:18 2026 +0000
+commit 90e363f223ebec567f19107e0eb9c093accae437
+Author: Nilhan <nilhan@gmail.com>
+Date:   Thu Jan 15 10:56:01 2026 +0530
 
-    chore: automated pristine maintenance
+    docs: remove redundant dossier source files (consolidated into FULL_TECHNICAL_DOSSIER.md)
 
  .editorconfig                                      |  15 +
  .gitattributes                                     |  39 ++
@@ -69,38 +69,14 @@ Date:   Wed Jan 14 02:00:18 2026 +0000
  docs/INDEX.md                                      |  66 ++
  docs/PRISTINE_STATUS.md                            |  15 +
  docs/REPO_HISTORY.md                               | 114 ++++
- docs/REPO_HISTORY.pdf                              | Bin 0 -> 4958 bytes
+ docs/REPO_HISTORY.pdf                              | Bin 0 -> 4959 bytes
  docs/REPO_MAP.md                                   | 109 ++++
  docs/SECURITY.md                                   | 170 ++++++
  docs/SETUP.md                                      | 169 +++++
  docs/TECHNICAL_DOSSIER/00_MASTER_INDEX.md          |  47 ++
  docs/TECHNICAL_DOSSIER/01_READING_GUIDE.md         |  27 +
- .../APPENDICES/A0_ENVIRONMENT_PROOF.md             |  69 +++
- .../APPENDICES/A3_GIT_METADATA.md                  | Bin 0 -> 22299 bytes
- .../APPENDICES/A5_CONFIG_FILES_RAW.md              | Bin 0 -> 3267 bytes
- .../APPENDICES/A8_GITHUB_ACTIONS_STATE.md          | Bin 0 -> 1341 bytes
- docs/TECHNICAL_DOSSIER/APPENDICES/A9_GLOSSARY.md   |  14 +
- docs/TECHNICAL_DOSSIER/APPENDICES/placeholder.txt  |   2 +
- .../CHAPTERS/02_EXECUTIVE_OVERVIEW.md              |  36 ++
- .../CHAPTERS/03_IDENTITY_AND_TIMELINE.md           |  42 ++
- .../CHAPTERS/04_DIRECTORY_STRUCTURE.md             |  41 ++
- .../CHAPTERS/05_WORKFLOWS_COMPLETE_SPEC.md         |  64 ++
- .../CHAPTERS/06_GUARDRAILS_STACK.md                |  32 +
- .../CHAPTERS/07_PRECOMMIT_CONTRACT.md              |  31 +
- .../CHAPTERS/08_SCRIPTS_TECH_SPEC.md               |  49 ++
- docs/TECHNICAL_DOSSIER/CHAPTERS/09_DOCS_SYSTEM.md  |  24 +
- docs/TECHNICAL_DOSSIER/CHAPTERS/10_GIT_POLICY.md   |  29 +
- .../CHAPTERS/11_SECURITY_MODEL.md                  |  29 +
- .../CHAPTERS/12_MAINTENANCE_AUTOMATION.md          |  25 +
- .../CHAPTERS/13_AI_FIRST_PLAYBOOK.md               |  31 +
- .../CHAPTERS/14_KNOWN_ISSUES_AND_GAPS.md           |  22 +
- docs/TECHNICAL_DOSSIER/CHAPTERS/15_QUICKSTART.md   |  29 +
- docs/TECHNICAL_DOSSIER/CHAPTERS/placeholder.txt    |   2 +
- docs/TECHNICAL_DOSSIER/DELIVERY_RECEIPT.md         |  23 +
- docs/TECHNICAL_DOSSIER/FIGURES/placeholder.txt     |   2 +
  docs/TECHNICAL_DOSSIER/FULL_TECHNICAL_DOSSIER.md   | 680 +++++++++++++++++++++
  .../TECHNICAL_DOSSIER/VERIFICATION_AUDIT_REPORT.md | 184 ++++++
- docs/TECHNICAL_DOSSIER/placeholder.txt             |   2 +
  docs/TIMESTAMP.md                                  |   8 +
  docs/WORKFLOWS.md                                  | 227 +++++++
  scripts/check-repo.py                              | 193 ++++++
@@ -109,6 +85,6 @@ Date:   Wed Jan 14 02:00:18 2026 +0000
  scripts/export-repo-history.py                     |  39 ++
  scripts/impact.py                                  |  78 +++
  scripts/repo-scan.py                               | 228 +++++++
- 86 files changed, 6145 insertions(+)
+ 62 files changed, 5547 insertions(+)
 
 ```

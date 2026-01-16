@@ -1,19 +1,19 @@
 # Repository Scan Results
 
-**Scanned:** 2026-01-15T01:55:22.856954
+**Scanned:** 2026-01-16T01:57:07.392178
 **Root:** `/home/runner/work/Dot_Env/Dot_Env`
 
 ## Summary
 
-- **Files:** 86
-- **Directories:** 10
-- **Total Size:** 213,185 bytes
+- **Files:** 62
+- **Directories:** 7
+- **Total Size:** 160,798 bytes
 - **Tech Stack:** None detected
 
 ## Files by Category
 
 - configuration: 20
-- documentation: 54
+- documentation: 30
 - other: 5
 - source: 7
 
@@ -67,38 +67,14 @@
 | `docs/INDEX.md` | 1867 | documentation |
 | `docs/PRISTINE_STATUS.md` | 348 | documentation |
 | `docs/REPO_HISTORY.md` | 6088 | documentation |
-| `docs/REPO_HISTORY.pdf` | 4958 | other |
+| `docs/REPO_HISTORY.pdf` | 4959 | other |
 | `docs/REPO_MAP.md` | 5667 | documentation |
 | `docs/SECURITY.md` | 3738 | documentation |
 | `docs/SETUP.md` | 3593 | documentation |
 | `docs/TECHNICAL_DOSSIER/00_MASTER_INDEX.md` | 2192 | documentation |
 | `docs/TECHNICAL_DOSSIER/01_READING_GUIDE.md` | 1222 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/A0_ENVIRONMENT_PROOF.md` | 2739 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/A3_GIT_METADATA.md` | 22299 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/A5_CONFIG_FILES_RAW.md` | 3267 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/A8_GITHUB_ACTIONS_STATE.md` | 1341 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/A9_GLOSSARY.md` | 842 | documentation |
-| `docs/TECHNICAL_DOSSIER/APPENDICES/placeholder.txt` | 66 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/02_EXECUTIVE_OVERVIEW.md` | 2274 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/03_IDENTITY_AND_TIMELINE.md` | 1794 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/04_DIRECTORY_STRUCTURE.md` | 1891 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/05_WORKFLOWS_COMPLETE_SPEC.md` | 2708 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/06_GUARDRAILS_STACK.md` | 1896 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/07_PRECOMMIT_CONTRACT.md` | 1328 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/08_SCRIPTS_TECH_SPEC.md` | 1838 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/09_DOCS_SYSTEM.md` | 1055 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/10_GIT_POLICY.md` | 1138 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/11_SECURITY_MODEL.md` | 1162 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/12_MAINTENANCE_AUTOMATION.md` | 1094 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/13_AI_FIRST_PLAYBOOK.md` | 1068 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/14_KNOWN_ISSUES_AND_GAPS.md` | 944 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/15_QUICKSTART.md` | 760 | documentation |
-| `docs/TECHNICAL_DOSSIER/CHAPTERS/placeholder.txt` | 64 | documentation |
-| `docs/TECHNICAL_DOSSIER/DELIVERY_RECEIPT.md` | 684 | documentation |
-| `docs/TECHNICAL_DOSSIER/FIGURES/placeholder.txt` | 63 | documentation |
 | `docs/TECHNICAL_DOSSIER/FULL_TECHNICAL_DOSSIER.md` | 18023 | documentation |
 | `docs/TECHNICAL_DOSSIER/VERIFICATION_AUDIT_REPORT.md` | 7306 | documentation |
-| `docs/TECHNICAL_DOSSIER/placeholder.txt` | 73 | documentation |
 | `docs/TIMESTAMP.md` | 405 | documentation |
 | `docs/WORKFLOWS.md` | 6885 | documentation |
 | `scripts/check-repo.py` | 5382 | source |
