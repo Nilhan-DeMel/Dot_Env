@@ -17,4 +17,4 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run Actionlint
-        uses: reviewdog/action-actionlint@1bf9a0707cba5462c03712f1765331395869d8e8 # v1.58.0
+        uses: reviewdog/action-actionlint@d1992cd6accccf401acb7d03b54a4fbacc9075f9 # v1.58.0
