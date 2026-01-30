@@ -21,7 +21,7 @@ jobs:
           python-version: '3.12'
 
       - name: Run Actionlint
-        uses: reviewdog/action-actionlint@1bf9a0707cba5462c03712f1765331395869d8e8 # v1.58.0
+        uses: reviewdog/action-actionlint@d1992cd6accccf401acb7d03b54a4fbacc9075f9 # v1.58.0
 
       - name: Run Repo Health Check
         run: python scripts/check-repo.py
