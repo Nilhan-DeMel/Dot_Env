@@ -21,6 +21,10 @@ import re
 from pathlib import Path
 
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+
 def get_repo_root():
     """Get repository root directory."""
     return Path(__file__).resolve().parent.parent
