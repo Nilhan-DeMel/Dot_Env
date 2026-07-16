@@ -22,7 +22,7 @@ Author: Nilhan de Mel <60913412+Nilhan-DeMel@users.noreply.github.com>
 Date:   Wed Jul 15 22:42:38 2026 +0530
 
     Merge pull request #7 from Nilhan-DeMel/agent/employer-release-20260715
-    
+
     Present implemented repository-governance automation accurately
 
  .editorconfig                                      |  15 +
