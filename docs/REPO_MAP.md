@@ -1,20 +1,20 @@
 # Repository Scan Results
 
-**Scanned:** 2026-07-16T02:45:21.136595
+**Scanned:** 2026-07-17T02:47:35.507496
 **Root:** `/home/runner/work/Dot_Env/Dot_Env`
 
 ## Summary
 
-- **Files:** 63
+- **Files:** 67
 - **Directories:** 7
-- **Total Size:** 157,556 bytes
+- **Total Size:** 213,449 bytes
 - **Tech Stack:** None detected
 
 ## Files by Category
 
-- configuration: 20
-- documentation: 31
-- other: 5
+- configuration: 21
+- documentation: 32
+- other: 7
 - source: 7
 
 ## File List
@@ -37,6 +37,7 @@
 | `.github/workflows/link-check.yml` | 537 | configuration |
 | `.github/workflows/main-sanity.yml` | 1128 | configuration |
 | `.github/workflows/megalinter.yml` | 1452 | configuration |
+| `.github/workflows/portfolio-integrity.yml` | 1054 | configuration |
 | `.github/workflows/pre-commit.yml` | 617 | configuration |
 | `.github/workflows/repo-dashboard.yml` | 2679 | configuration |
 | `.github/workflows/reviewdog.yml` | 910 | configuration |
@@ -52,6 +53,7 @@
 | `ENGINEERING_OVERVIEW.md` | 2052 | documentation |
 | `LICENSE` | 1069 | other |
 | `README.md` | 2310 | documentation |
+| `RIGHTS.md` | 461 | documentation |
 | `SECURITY.md` | 474 | documentation |
 | `commitlint.config.js` | 71 | source |
 | `docs/ARCHITECTURE.md` | 4143 | documentation |
@@ -67,9 +69,9 @@
 | `docs/GLOSSARY.md` | 3067 | documentation |
 | `docs/INDEX.md` | 1867 | documentation |
 | `docs/PRISTINE_STATUS.md` | 348 | documentation |
-| `docs/REPO_HISTORY.md` | 4596 | documentation |
-| `docs/REPO_HISTORY.pdf` | 4326 | other |
-| `docs/REPO_MAP.md` | 3693 | documentation |
+| `docs/REPO_HISTORY.md` | 4773 | documentation |
+| `docs/REPO_HISTORY.pdf` | 4456 | other |
+| `docs/REPO_MAP.md` | 3744 | documentation |
 | `docs/SECURITY.md` | 3738 | documentation |
 | `docs/SETUP.md` | 3593 | documentation |
 | `docs/TECHNICAL_DOSSIER/00_MASTER_INDEX.md` | 827 | documentation |
@@ -78,6 +80,8 @@
 | `docs/TECHNICAL_DOSSIER/VERIFICATION_AUDIT_REPORT.md` | 7306 | documentation |
 | `docs/TIMESTAMP.md` | 405 | documentation |
 | `docs/WORKFLOWS.md` | 6885 | documentation |
+| `docs/social-preview.png` | 51869 | other |
+| `docs/social-preview.svg` | 2151 | other |
 | `scripts/check-repo.py` | 5486 | source |
 | `scripts/doctor.py` | 4306 | source |
 | `scripts/export-repo-history-pdf.py` | 1516 | source |
